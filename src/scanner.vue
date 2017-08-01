@@ -4,32 +4,39 @@
       <text class="counter">{{totalIMEI==0?'--':totalIMEI}}</text>
       <wxscanner class="scanner" ref="scanner"></wxscanner>
     </div>
-  <div>
-    <text>生产批次</text>
-    <input class="input" type="number" placeholder="Input Text" @change="pbchange"></input>
+  <div class="input-container">
+    <text class="title">生产批次</text>
+    <input class="input" type="number" placeholder="生产批次" @change="pbchange"></input>
   </div>
-  <div>
-    <text>产品类别</text>
-    <input class="input" type="number" placeholder="Input Text" @change="ptchange"></input>
+  <div class="input-container">
+    <text class="title">产品类别</text>
+    <input class="input" type="number" placeholder="产品类别" @change="ptchange"></input>
   </div>
-  <div>
-    <text>产品代别</text>
-    <input class="input" type="number" placeholder="Input Text" @change="pgchange"></input>
+  <div class="input-container">
+    <text class="title">产品代别</text>
+        <input  class="input" type="number" placeholder="产品代别" @change="pgchange"></input>
+    </div>
+  <div class="button-container">
+    <text @click="send()" class="text primary">发送</text>
+    <text @click="clear()" class="text alert">清除数据</text>
   </div>
-    <div @click="send()" class="button">发送</div>
-    <div @click="clear()" class="button">清除数据</div>
   </div>
 </template>
 
 <style>
   .wrapper { align-items: center;  }
-  .scanner-container {align-items: center;margin-top: 100px}
-  .title { font-size: 48px; }
-  .counter{font-size: 48px}
+  .scanner-container {align-items: center;margin-top: 50px}
+  .title { font-size: 30px; text-align: center;height: 50px;}
+  .counter{font-size: 48px;}
   .logo { width: 360px; height: 82px; }
-  .scanner{width: 500px;height: 500px;margin: 50px}
-  .button{width: 200px;height: 80px;font-size: 100px;margin-top: 50px;text-align: center;background-color: green}
-  .input{width: 400px;height: 40px;background-color: gray}
+  .scanner{width: 500px;height: 500px;margin: 20px}
+  .button-container{flex-direction: row;margin-top: 50px;justify-content: space-between;width: 500px}
+  .text{width: 200px;height: 50px;font-size: 30px; text-align: center;border-style:solid;border-width:2px;border-radius:5px;color:black;}
+  .primary{background-color: #00c010}
+  .alert{background-color: #f6504d}
+  .input-container{flex-direction: row;margin-top: 30px}
+  .input{width: 400px;height: 60px; border-style:solid;border-width:2px;border-radius:3px;}
+
 </style>
 
 <script>
@@ -43,6 +50,7 @@
     created(){
       let that = this;
       globalEvent.addEventListener('scannerEvent', function(e){
+          console.log(e);
           that.getScannerString(e);
       });
       storage.getItem('IMEIList',event=>{
@@ -129,6 +137,10 @@
             console.log('storaged data -- -- --',IMEIList);
             for(var i=0;i<IMEIList.length;i++){
               if(IMEIList[i]==IMEI){
+                modal.toast({
+                  message:'该码已扫',
+                  duration:0.3
+                })
                 return
               }
             }
@@ -145,16 +157,41 @@
                           this.totalIMEI ++;
            });
           }
+           modal.toast({
+                  message:'扫码成功',
+                  duration:0.3
+            })
           console.log('----storge----'+event.data);
         })
       },
       pbchange(event){
+        var n = Number(event.value);
+        if(isNaN(n)){
+          modal.alert({
+            message:'请输入数字'
+          })
+          return
+        }
         this.pbValue = event.value;
       },
       ptchange(event){
+        var n = Number(event.value);
+        if(isNaN(n)){
+          modal.alert({
+            message:'请输入数字'
+          })
+          return
+        }
         this.ptValue = event.value;
       },
       pgchange(event){
+        var n = Number(event.value);
+        if(isNaN(n)){
+          modal.alert({
+            message:'请输入数字'
+          })
+          return
+        }
         this.pgValue = event.value;
       },
       send(){
@@ -165,16 +202,25 @@
           console.log('--data--'+IMEIList);
           if(IMEIList){
             IMEIList = this.getArrayWithString(IMEIList);
-            let param = new Map();
-            let sendParam = new Map();
-            sendParam.imeiList = IMEIList;
-            sendParam.pb = that.pbValue;
-            sendParam.pt = that.ptValue;
-            sendParam.pg = that.pgValue;
-            param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
-            param.sendParam = sendParam;
+            let sendParam = '{"imeiList":['+IMEIList+'],';
+            console.log("sendParam1:  "+sendParam);
+            sendParam = sendParam + '"pb":"' + that.pbValue + '","pt":"' + that.ptValue + '","pg":"' + that.pgValue + '"}';
+            console.log("sendParam2:  "+sendParam);
+            let param = '{"url":"https://api.xiaoantech.com/scm/procedure/imei2Sn","sendParam":' + sendParam + '}';
+            console.log("param:  "+param);
+            // let param = new Map();
+            // let sendParam = new Map();
+            // sendParam.imeiList = IMEIList;
+            // sendParam.pb = that.pbValue;
+            // sendParam.pt = that.ptValue;
+            // sendParam.pg = that.pgValue;
+            // param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
+            // param.sendParam = sendParam;
             http.postwithDic(param,function(res){
-              let result =  res.suc;
+              console.log("response:"+res);
+              let obj = JSON.parse(res);
+              let result =  obj.suc;
+              console.log("result:"+result);
               modal.alert({message:result?'上传成功':'上传失败'})
             })
           }
@@ -190,9 +236,7 @@
         },function(e){
           if(e=='确认'){
             storage.removeItem("IMEIList",function(e){
-              if(typeof(e.data)=="undefined"){
-                that.totalIMEI = 0;
-              }
+                that.totalIMEI=0;
             })
           }
         })

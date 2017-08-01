@@ -134,7 +134,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.wrapper { align-items: center;\n}\n.scanner-container {align-items: center;margin-top: 100px\n}\n.title { font-size: 48px;\n}\n.counter{font-size: 48px\n}\n.logo { width: 360px; height: 82px;\n}\n.scanner{width: 500px;height: 500px;margin: 50px\n}\n.button{width: 200px;height: 80px;font-size: 100px;margin-top: 50px;text-align: center;background-color: green\n}\n.input{width: 400px;height: 40px;background-color: gray\n}\n", ""]);
+	exports.push([module.id, "\n.wrapper { align-items: center;\n}\n.scanner-container {align-items: center;margin-top: 50px\n}\n.title { font-size: 30px; text-align: center;height: 50px;\n}\n.counter{font-size: 48px;\n}\n.logo { width: 360px; height: 82px;\n}\n.scanner{width: 500px;height: 500px;margin: 20px\n}\n.button-container{flex-direction: row;margin-top: 50px;justify-content: space-between;width: 500px\n}\n.text{width: 200px;height: 50px;font-size: 30px; text-align: center;border-style:solid;border-width:2px;border-radius:5px;color:black;\n}\n.primary{background-color: #00c010\n}\n.alert{background-color: #f6504d\n}\n.input-container{flex-direction: row;margin-top: 30px\n}\n.input{width: 400px;height: 60px; border-style:solid;border-width:2px;border-radius:3px;\n}\n\n", ""]);
 
 	// exports
 
@@ -548,6 +548,13 @@
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var navigator = weex.requireModule('navigator');
 	var globalEvent = weex.requireModule('globalEvent');
@@ -558,6 +565,7 @@
 	  created: function created() {
 	    var that = this;
 	    globalEvent.addEventListener('scannerEvent', function (e) {
+	      console.log(e);
 	      that.getScannerString(e);
 	    });
 	    storage.getItem('IMEIList', function (event) {
@@ -647,6 +655,10 @@
 	          console.log('storaged data -- -- --', IMEIList);
 	          for (var i = 0; i < IMEIList.length; i++) {
 	            if (IMEIList[i] == IMEI) {
+	              modal.toast({
+	                message: '该码已扫',
+	                duration: 0.3
+	              });
 	              return;
 	            }
 	          }
@@ -663,16 +675,41 @@
 	            _this.totalIMEI++;
 	          });
 	        }
+	        modal.toast({
+	          message: '扫码成功',
+	          duration: 0.3
+	        });
 	        console.log('----storge----' + event.data);
 	      });
 	    },
 	    pbchange: function pbchange(event) {
+	      var n = Number(event.value);
+	      if (isNaN(n)) {
+	        modal.alert({
+	          message: '请输入数字'
+	        });
+	        return;
+	      }
 	      this.pbValue = event.value;
 	    },
 	    ptchange: function ptchange(event) {
+	      var n = Number(event.value);
+	      if (isNaN(n)) {
+	        modal.alert({
+	          message: '请输入数字'
+	        });
+	        return;
+	      }
 	      this.ptValue = event.value;
 	    },
 	    pgchange: function pgchange(event) {
+	      var n = Number(event.value);
+	      if (isNaN(n)) {
+	        modal.alert({
+	          message: '请输入数字'
+	        });
+	        return;
+	      }
 	      this.pgValue = event.value;
 	    },
 	    send: function send() {
@@ -685,16 +722,25 @@
 	        console.log('--data--' + IMEIList);
 	        if (IMEIList) {
 	          IMEIList = _this2.getArrayWithString(IMEIList);
-	          var param = new Map();
-	          var sendParam = new Map();
-	          sendParam.imeiList = IMEIList;
-	          sendParam.pb = that.pbValue;
-	          sendParam.pt = that.ptValue;
-	          sendParam.pg = that.pgValue;
-	          param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
-	          param.sendParam = sendParam;
+	          var sendParam = '{"imeiList":[' + IMEIList + '],';
+	          console.log("sendParam1:  " + sendParam);
+	          sendParam = sendParam + '"pb":"' + that.pbValue + '","pt":"' + that.ptValue + '","pg":"' + that.pgValue + '"}';
+	          console.log("sendParam2:  " + sendParam);
+	          var param = '{"url":"https://api.xiaoantech.com/scm/procedure/imei2Sn","sendParam":' + sendParam + '}';
+	          console.log("param:  " + param);
+	          // let param = new Map();
+	          // let sendParam = new Map();
+	          // sendParam.imeiList = IMEIList;
+	          // sendParam.pb = that.pbValue;
+	          // sendParam.pt = that.ptValue;
+	          // sendParam.pg = that.pgValue;
+	          // param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
+	          // param.sendParam = sendParam;
 	          http.postwithDic(param, function (res) {
-	            var result = res.suc;
+	            console.log("response:" + res);
+	            var obj = JSON.parse(res);
+	            var result = obj.suc;
+	            console.log("result:" + result);
 	            modal.alert({ message: result ? '上传成功' : '上传失败' });
 	          });
 	        }
@@ -709,9 +755,7 @@
 	      }, function (e) {
 	        if (e == '确认') {
 	          storage.removeItem("IMEIList", function (e) {
-	            if (typeof e.data == "undefined") {
-	              that.totalIMEI = 0;
-	            }
+	            that.totalIMEI = 0;
 	          });
 	        }
 	      });
@@ -736,48 +780,62 @@
 	  }, [_vm._v(_vm._s(_vm.totalIMEI == 0 ? '--' : _vm.totalIMEI))]), _vm._v(" "), _c('wxscanner', {
 	    ref: "scanner",
 	    staticClass: "scanner"
-	  })], 1), _vm._v(" "), _c('div', [_c('text', [_vm._v("生产批次")]), _vm._v(" "), _c('input', {
+	  })], 1), _vm._v(" "), _c('div', {
+	    staticClass: "input-container"
+	  }, [_c('text', {
+	    staticClass: "title"
+	  }, [_vm._v("生产批次")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
 	      "type": "number",
-	      "placeholder": "Input Text"
+	      "placeholder": "生产批次"
 	    },
 	    on: {
 	      "change": _vm.pbchange
 	    }
-	  })]), _vm._v(" "), _c('div', [_c('text', [_vm._v("产品类别")]), _vm._v(" "), _c('input', {
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "input-container"
+	  }, [_c('text', {
+	    staticClass: "title"
+	  }, [_vm._v("产品类别")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
 	      "type": "number",
-	      "placeholder": "Input Text"
+	      "placeholder": "产品类别"
 	    },
 	    on: {
 	      "change": _vm.ptchange
 	    }
-	  })]), _vm._v(" "), _c('div', [_c('text', [_vm._v("产品代别")]), _vm._v(" "), _c('input', {
+	  })]), _vm._v(" "), _c('div', {
+	    staticClass: "input-container"
+	  }, [_c('text', {
+	    staticClass: "title"
+	  }, [_vm._v("产品代别")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
 	      "type": "number",
-	      "placeholder": "Input Text"
+	      "placeholder": "产品代别"
 	    },
 	    on: {
 	      "change": _vm.pgchange
 	    }
 	  })]), _vm._v(" "), _c('div', {
-	    staticClass: "button",
+	    staticClass: "button-container"
+	  }, [_c('text', {
+	    staticClass: "text primary",
 	    on: {
 	      "click": function($event) {
 	        _vm.send()
 	      }
 	    }
-	  }, [_vm._v("发送")]), _vm._v(" "), _c('div', {
-	    staticClass: "button",
+	  }, [_vm._v("发送")]), _vm._v(" "), _c('text', {
+	    staticClass: "text alert",
 	    on: {
 	      "click": function($event) {
 	        _vm.clear()
 	      }
 	    }
-	  }, [_vm._v("清除数据")])])
+	  }, [_vm._v("清除数据")])])])
 	},staticRenderFns: []}
 	module.exports.render._withStripped = true
 	if (false) {

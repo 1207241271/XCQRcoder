@@ -21,6 +21,7 @@
 		764C01AD1F29D051006B81A8 /* scanPage.web.js in Resources */ = {isa = PBXBuildFile; fileRef = 764C01A91F29D051006B81A8 /* scanPage.web.js */; };
 		764C01AE1F29D051006B81A8 /* scanPage.weex.js in Resources */ = {isa = PBXBuildFile; fileRef = 764C01AA1F29D051006B81A8 /* scanPage.weex.js */; };
 		764C01B11F29D304006B81A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 764C01AF1F29D304006B81A8 /* Main.storyboard */; };
+		76C3FF951F3066AA0051429E /* IOTJSONConvertClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C3FF941F3066AA0051429E /* IOTJSONConvertClass.m */; };
 		C1BF9A1C87D0D6AE15A88D3D /* libPods-IOSScanner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB83AE841B05F34B2198E9 /* libPods-IOSScanner.a */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,8 @@
 		764C01A91F29D051006B81A8 /* scanPage.web.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = scanPage.web.js; sourceTree = "<group>"; };
 		764C01AA1F29D051006B81A8 /* scanPage.weex.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = scanPage.weex.js; sourceTree = "<group>"; };
 		764C01B01F29D304006B81A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		76C3FF931F3066AA0051429E /* IOTJSONConvertClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTJSONConvertClass.h; sourceTree = "<group>"; };
+		76C3FF941F3066AA0051429E /* IOTJSONConvertClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOTJSONConvertClass.m; sourceTree = "<group>"; };
 		BDF064AF6CBCFA537A1E7B59 /* Pods-IOSScanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSScanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSScanner/Pods-IOSScanner.release.xcconfig"; sourceTree = "<group>"; };
 		E53413BD7FF883BD6105246E /* Pods-IOSScanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSScanner.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSScanner/Pods-IOSScanner.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +135,8 @@
 		764C01571F298B1D006B81A8 /* IOSScanner */ = {
 			isa = PBXGroup;
 			children = (
+				76C3FF931F3066AA0051429E /* IOTJSONConvertClass.h */,
+				76C3FF941F3066AA0051429E /* IOTJSONConvertClass.m */,
 				764C015B1F298B1D006B81A8 /* AppDelegate.h */,
 				764C015C1F298B1D006B81A8 /* AppDelegate.m */,
 				764C015E1F298B1D006B81A8 /* ViewController.h */,
@@ -388,6 +393,7 @@
 				764C01601F298B1D006B81A8 /* ViewController.m in Sources */,
 				764C01931F299E6D006B81A8 /* WXHttpModule.m in Sources */,
 				764C015D1F298B1D006B81A8 /* AppDelegate.m in Sources */,
+				76C3FF951F3066AA0051429E /* IOTJSONConvertClass.m in Sources */,
 				764C015A1F298B1D006B81A8 /* main.m in Sources */,
 				764C018D1F298B6B006B81A8 /* WXScannerComponent.m in Sources */,
 			);

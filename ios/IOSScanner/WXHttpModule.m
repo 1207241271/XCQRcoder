@@ -7,6 +7,7 @@
 //
 #import <AFNetworking.h>
 #import "WXHttpModule.h"
+#import "IOTJSONConvertClass.h"
 @implementation WXHttpModule
 WX_EXPORT_METHOD(@selector(postwithDic:callback:))
 -(void)postwithDic:(NSString *)weexDic callback:(WXModuleCallback)callback{
@@ -25,9 +26,9 @@ WX_EXPORT_METHOD(@selector(postwithDic:callback:))
               NSData *data = (NSData *)responseObject;
               NSError *error;
               NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-              callback(@{@"success":dic[@"error"]});
+              callback([IOTJSONConvertClass convertToJSONData:dic]);
           }failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              callback(@{@"fail":error.description});
+              callback([IOTJSONConvertClass convertToJSONData:@{@"suc":@(false)}]);
           }];
 }
 @end
