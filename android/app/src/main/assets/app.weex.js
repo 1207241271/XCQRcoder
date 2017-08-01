@@ -88,10 +88,10 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/yangxu/Documents/workspace/weex/XCQRcoder/src/scanner.vue"
+	__vue_options__.__file = "F:\\githubFile\\XCQRcoder\\src\\scanner.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-af9470ae"
+	__vue_options__._scopeId = "data-v-50d57a20"
 	__vue_options__.style = __vue_options__.style || {}
 	__vue_styles__.forEach(function (module) {
 	  for (var name in module) {
@@ -134,9 +134,9 @@
 	  },
 	  "button": {
 	    "width": 200,
-	    "height": 80,
+	    "height": 50,
 	    "fontSize": 100,
-	    "marginTop": 50,
+	    "marginTop": 20,
 	    "textAlign": "center",
 	    "backgroundColor": "#008000"
 	  },
@@ -203,6 +203,7 @@
 	  created: function created() {
 	    var that = this;
 	    globalEvent.addEventListener('scannerEvent', function (e) {
+	      console.log(e);
 	      that.getScannerString(e);
 	    });
 	    storage.getItem('IMEIList', function (event) {
@@ -330,16 +331,25 @@
 	        console.log('--data--' + IMEIList);
 	        if (IMEIList) {
 	          IMEIList = _this2.getArrayWithString(IMEIList);
-	          var param = new Map();
-	          var sendParam = new Map();
-	          sendParam.imeiList = IMEIList;
-	          sendParam.pb = that.pbValue;
-	          sendParam.pt = that.ptValue;
-	          sendParam.pg = that.pgValue;
-	          param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
-	          param.sendParam = sendParam;
+	          var sendParam = '{"imeiList":[' + IMEIList + '],';
+	          console.log("sendParam1:  " + sendParam);
+	          sendParam = sendParam + '"pb":"' + that.pbValue + '","pt":"' + that.ptValue + '","pg":"' + that.pgValue + '"}';
+	          console.log("sendParam2:  " + sendParam);
+	          var param = '{"url":"https://test.xiaoan110.com/scm/procedure/imei2Sn","sendParam":' + sendParam + '}';
+	          console.log("param:  " + param);
+	          // let param = new Map();
+	          // let sendParam = new Map();
+	          // sendParam.imeiList = IMEIList;
+	          // sendParam.pb = that.pbValue;
+	          // sendParam.pt = that.ptValue;
+	          // sendParam.pg = that.pgValue;
+	          // param.url = 'https://test.xiaoan110.com/scm/procedure/imei2Sn';
+	          // param.sendParam = sendParam;
 	          http.postwithDic(param, function (res) {
-	            var result = res.suc;
+	            console.log("response:" + res);
+	            var obj = JSON.parse(res);
+	            var result = obj.suc;
+	            console.log("result:" + result);
 	            modal.alert({ message: result ? '上传成功' : '上传失败' });
 	          });
 	        }
