@@ -6,18 +6,18 @@
     </div>
   <div>
     <text>生产批次</text>
-    <input class="input" type="text" placeholder="Input Text" @change="pbchange"></input>
+    <input class="input" type="number" placeholder="Input Text" @change="pbchange"></input>
   </div>
   <div>
     <text>产品类别</text>
-    <input class="input" type="text" placeholder="Input Text" @change="ptchange"></input>
+    <input class="input" type="number" placeholder="Input Text" @change="ptchange"></input>
   </div>
   <div>
     <text>产品代别</text>
-    <input class="input" type="text" placeholder="Input Text" @change="pgchange"></input>
+    <input class="input" type="number" placeholder="Input Text" @change="pgchange"></input>
   </div>
-    <button @click="send()" class="button">发送</button>
-    <button @click="clear()" class="button">清除数据</button>
+    <div @click="send()" class="button">发送</div>
+    <div @click="clear()" class="button">清除数据</div>
   </div>
 </template>
 

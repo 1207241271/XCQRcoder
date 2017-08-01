@@ -739,7 +739,7 @@
 	  })], 1), _vm._v(" "), _c('div', [_c('text', [_vm._v("生产批次")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
@@ -748,7 +748,7 @@
 	  })]), _vm._v(" "), _c('div', [_c('text', [_vm._v("产品类别")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
@@ -757,20 +757,20 @@
 	  })]), _vm._v(" "), _c('div', [_c('text', [_vm._v("产品代别")]), _vm._v(" "), _c('input', {
 	    staticClass: "input",
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
 	      "change": _vm.pgchange
 	    }
-	  })]), _vm._v(" "), _c('button', {
+	  })]), _vm._v(" "), _c('div', {
 	    staticClass: "button",
 	    on: {
 	      "click": function($event) {
 	        _vm.send()
 	      }
 	    }
-	  }, [_vm._v("发送")]), _vm._v(" "), _c('button', {
+	  }, [_vm._v("发送")]), _vm._v(" "), _c('div', {
 	    staticClass: "button",
 	    on: {
 	      "click": function($event) {

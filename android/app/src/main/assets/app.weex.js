@@ -384,7 +384,7 @@
 	  })], 1), _c('div', [_c('text', [_vm._v("生产批次")]), _c('input', {
 	    staticClass: ["input"],
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
@@ -393,7 +393,7 @@
 	  })]), _c('div', [_c('text', [_vm._v("产品类别")]), _c('input', {
 	    staticClass: ["input"],
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
@@ -402,27 +402,27 @@
 	  })]), _c('div', [_c('text', [_vm._v("产品代别")]), _c('input', {
 	    staticClass: ["input"],
 	    attrs: {
-	      "type": "text",
+	      "type": "number",
 	      "placeholder": "Input Text"
 	    },
 	    on: {
 	      "change": _vm.pgchange
 	    }
-	  })]), _c('button', {
+	  })]), _c('div', {
 	    staticClass: ["button"],
 	    on: {
 	      "click": function($event) {
 	        _vm.send()
 	      }
 	    }
-	  }, [_vm._v("发送")]), _c('button', {
+	  }, [_vm._v("发送")]), _c('div', {
 	    staticClass: ["button"],
 	    on: {
 	      "click": function($event) {
 	        _vm.clear()
 	      }
 	    }
-	  }, [_vm._v("清除数据")])], 1)
+	  }, [_vm._v("清除数据")])])
 	},staticRenderFns: []}
 	module.exports.render._withStripped = true
 
