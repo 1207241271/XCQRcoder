@@ -279,7 +279,7 @@
 	      var newIMEI = void 0;
 	      if (string.IMEI) {
 	        newIMEI = string.IMEI;
-	      } else {
+	      } else if (string.split(';').length > 1) {
 	        var strArray = string.split(';');
 	        console.log('array' + strArray);
 	        console.log(strArray.length);
@@ -291,6 +291,12 @@
 	            console.log('string' + IMEIString);
 	            newIMEI = IMEIString.split(':')[1];
 	          }
+	        }
+	      } else if (string.split(' ').length > 1) {
+	        var _IMEIString = string.split(' ')[0];
+	        if (_IMEIString.indexOf('IMEI') >= 0) {
+	          console.log('string' + _IMEIString);
+	          newIMEI = _IMEIString.split(':')[1];
 	        }
 	      }
 	      console.log(newIMEI);
@@ -393,7 +399,7 @@
 	          console.log("sendParam1:  " + sendParam);
 	          sendParam = sendParam + '"pb":"' + that.pbValue + '","pt":"' + that.ptValue + '","pg":"' + that.pgValue + '"}';
 	          console.log("sendParam2:  " + sendParam);
-	          var param = '{"url":"https://api.xiaoantech.com/scm/procedure/imei2Sn","sendParam":' + sendParam + '}';
+	          var param = '{"url":"https://test.xiaoan110.com/scm/procedure/imei2Sn","sendParam":' + sendParam + '}';
 	          console.log("param:  " + param);
 	          // let param = new Map();
 	          // let sendParam = new Map();
